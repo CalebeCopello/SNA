@@ -1,3 +1,83 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+	font-family: JetBrainsMono;
+	src: url(./assets/fonts/JetBrainsMono.ttf);
+}
+
+@font-face {
+	font-family: Onest;
+	src: url(./assets/fonts/OnestSanSerif.ttf);
+}
+
+@font-face {
+	font-family: YoungSerif;
+	src: url(./assets/fonts/YoungSerif.ttf);
+}
+
+:root {
+	font-family: 'Onest';
+}
+
+/* themes */
+.gruvbox {
+    --background: 251, 241, 199;
+    --textColor: 60, 56, 54;
+    --color01: 251, 241, 199;
+    --color02: 204, 36, 29;
+    --color03: 152, 151, 26;
+    --color04: 215, 153, 33;
+    --color05: 69, 133, 136;
+    --color06: 177, 98, 134;
+    --color07: 104, 157, 106;
+    --color08: 124, 111, 100;
+    --color09: 146, 131, 116;
+    --color10: 157, 0, 6;
+    --color11: 121, 116, 14;
+    --color12: 181, 118, 20;
+    --color13: 7, 102, 120;
+    --color14: 143, 63, 113;
+    --color15: 66, 123, 88;
+    --color16: 60, 56, 54;
+}
+.gruvboxDark {
+    --background: 40, 40, 40;
+    --textColor: 235, 219,178;
+    --color01: 40, 40, 40;
+    --color02: 204, 36, 29;
+    --color03: 152, 151, 26;
+    --color04: 215, 153, 33;
+    --color05: 69, 133, 136;
+    --color06: 177, 98, 134;
+    --color07: 104, 157, 106;
+    --color08: 168, 153, 132;
+    --color09: 146, 131, 116;
+    --color10: 251, 73, 52;
+    --color11: 184, 187, 38;
+    --color12: 250, 189, 47;
+    --color13: 131, 165, 152;
+    --color14: 211, 134, 155;
+    --color15: 142, 192, 124;
+    --color16: 235, 219, 178;
+}
+.rosePineMoon {
+    --background: 35, 33, 54;
+    --textColor: 224, 222, 244;
+    --color02: 235, 111, 146;
+    --color03: 156, 207, 216;
+    --color04: 246, 193, 119;
+    --color05: 62, 143, 176;
+    --color06: 196, 167, 231;
+    --color07: 234, 154, 151;
+    --color08: 224, 223, 244;
+    --color09: 110, 106, 134;
+    --color10: 235, 111, 146;
+    --color11: 156, 207, 216;
+    --color12: 246, 193, 119;
+    --color13: 62, 143, 176;
+    --color14: 196, 167, 231;
+    --color15: 234, 154, 151;
+    --color16: 224, 223, 244;
+}

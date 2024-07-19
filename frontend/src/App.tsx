@@ -1,9 +1,22 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
+import Index from './pages/index/Index';
 
 function App() {
 	return (
 		<>
-			<h1 className='text-3xl font-bold underline'>Hello world!</h1>
+			<BrowserRouter>
+				<Routes>
+					<Route
+						path='/'
+						element={<Index />}
+					/>
+					<Route
+						path='*'
+						element={<div>404</div>}
+					/>
+				</Routes>
+			</BrowserRouter>
 		</>
 	);
 }
