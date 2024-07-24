@@ -2,10 +2,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Index from './pages/index/Index';
 import Login from './pages/login/Login';
 import './App.css';
+import Signin from './pages/signin/Signin';
 
 function App() {
-	// document.body.classList.add('gruvboxDark')
-	document.body.classList.add('rosePineMoon')
+	document.body.classList.add('gruvboxDark')
+	// document.body.classList.add('rosePineMoon')
 	// document.body.classList.add('gruvbox')
 	document.body.classList.add('bg-background')
 	return (
@@ -19,6 +20,10 @@ function App() {
 					<Route
 						path='/login'
 						element={<Login />}
+					/>
+					<Route
+						path='/signin'
+						element={<Signin />}
 					/>
 					<Route
 						path='*'

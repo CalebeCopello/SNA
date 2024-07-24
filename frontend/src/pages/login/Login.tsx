@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { FaGoogle } from 'react-icons/fa';
 
-import { styleH1, styleFormBorder, styleFormItem, styleFormLabel, styleFormMessage, styleInput, styleButton } from '../../constants/styles';
+import { styleH1, styleFormBorder, styleFormItem, styleFormLabel, styleFormMessage, styleInput, styleButton, styleButton2 } from '../../constants/styles';
 
 const formSchema = z.object({
 	email: z.string().email({ message: 'Email is required' }).trim().toLowerCase(),
@@ -33,8 +33,8 @@ const Login = () => {
 	}
 
 	useEffect(() => {
-		// setTimeout(() => setPageLoading(false), 1200);
-		setPageLoading(false);
+		setTimeout(() => setPageLoading(false), 1200);
+		// setPageLoading(false);
 	}, []);
 
 	console.log(pageLoading);
@@ -43,7 +43,7 @@ const Login = () => {
 		<>
 			<div className='h-screen flex items-center justify-center'>
 				{pageLoading ? (
-					<Skeleton className='w-[300px] h-[285px] rounded bg-color08' />
+					<Skeleton className='w-[300px] h-[350px] rounded bg-color08' />
 				) : (
 					<div className={`flex w-[300px] ${styleFormBorder}`}>
 						<div className='flex-row w-full'>
@@ -107,10 +107,10 @@ const Login = () => {
 									<div className="self-center border-textColor/50 border-t w-full"></div>
 								</div>
 								<div className='mt-3 flex'>
-									<Button className='mx-auto border rounded'>
-										<FaGoogle className='text-textColor' />
-										<span className="ml-2 text-textColor">
-										Google
+									<Button className={`mx-auto ${styleButton2}`}>
+										<FaGoogle className='text-color01' />
+										<span className="ml-2">
+										Use Google account
 										</span>
 									</Button>
 								</div>
