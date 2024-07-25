@@ -33,8 +33,7 @@ const Login = () => {
 	}
 
 	useEffect(() => {
-		setTimeout(() => setPageLoading(false), 1200);
-		// setPageLoading(false);
+		setPageLoading(false);
 	}, []);
 
 	console.log(pageLoading);

@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { FaGoogle } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 import { styleH1, styleFormBorder, styleFormItem, styleFormLabel, styleFormMessage, styleInput, styleButton, styleButton2 } from '../../constants/styles';
 
@@ -42,8 +43,7 @@ const SignIn = () => {
 	}
 
 	useEffect(() => {
-		setTimeout(() => setPageLoading(false), 1200);
-		// setPageLoading(false);
+		setPageLoading(false);
 	}, []);
 
 	console.log(pageLoading);
@@ -137,6 +137,10 @@ const SignIn = () => {
 										<span className='ml-2 text-color01'>Use Google account</span>
 									</Button>
 								</div>
+							</div>
+							<div className='mx-2 mt-3 border-textColor/50 border-t'></div>
+							<div className='mt-3 flex'>
+								<span className='mx-auto text-textColor'>Already have an account? <Link to='/login'>LogIn</Link></span>
 							</div>
 						</div>
 					</div>
