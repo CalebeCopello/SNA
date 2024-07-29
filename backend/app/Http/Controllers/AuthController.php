@@ -12,27 +12,62 @@ use Illuminate\Validation\Rules\Password;
 class AuthController extends Controller
 {
     public function register(Request $request) {
-        $user = $request->username;
-        $validateUser = Validator::make($request->all(),
+        
+        $validate = Validator::make($request->all(),
         [
             'username' => ['required', 'unique:users,username'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', Password::min(4)]
         ]);
-
-        if ($validateUser->fails()) {
-            return response()->json(['errors'=> $validateUser->errors()], 422);
+        
+        if ($validate->fails()) {
+            return response()->json(['errors'=> $validate->errors()], 422);
         }
-
         try {
+            $user = $request->username;
             User::create([
-                'username'=> $request->username,
+                'username'=> $user,
                 'email'=> $request->email,
                 'password'=> Hash::make($request->password)
             ]);
-            return response()->json(['success' => $user.' created'], 200);
+            return response()->json([
+                'status'=> 'success',
+                'message' => 'Account for '.$user.' created'
+            ], 200);
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th], 500);
+            return response()->json([
+                'status'=> 'error',
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+    public function login(Request $request) {
+        $validate = Validator::make($request->all(),[
+            'email' => ['required'],
+            'password' => ['required', Password::min(4)]
+        ]);
+        if ($validate->fails()) {
+            return response()->json(['errors'=> $validate->errors()], 422);
+        }
+        try {
+            if(!Auth::attempt($request->only(['email', 'password']))) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Email or password is invalid!'
+                    
+                ], 403);
+            }
+            $user = User::where('email',$request->email)->first();
+            return response()->json([
+                'status'=> 'success',
+                'message' => 'Logged in successfully',
+                'token' => $user->createToken('AuthToken')->plainTextToken
+            ], 200);
+        }  catch (\Throwable $th) {
+            return response()->json([
+                'status'=> 'error',
+                'message' => $th->getMessage()
+            ], 500);
         }
     }
 }
