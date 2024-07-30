@@ -11,63 +11,77 @@ use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
-    public function register(Request $request) {
-        
-        $validate = Validator::make($request->all(),
-        [
-            'username' => ['required', 'unique:users,username'],
-            'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', Password::min(4)]
-        ]);
-        
+    public function register(Request $request)
+    {
+        $validate = Validator::make(
+            $request->all(),
+            [
+                'username' => ['required', 'unique:users,username'],
+                'email' => ['required', 'email', 'unique:users,email'],
+                'password' => ['required', Password::min(4)]
+            ]
+        );
+
         if ($validate->fails()) {
-            return response()->json(['errors'=> $validate->errors()], 422);
+            return response()->json(['errors' => $validate->errors()], 422);
         }
         try {
             $user = $request->username;
             User::create([
-                'username'=> $user,
-                'email'=> $request->email,
-                'password'=> Hash::make($request->password)
+                'username' => $user,
+                'email' => $request->email,
+                'password' => Hash::make($request->password)
             ]);
             return response()->json([
-                'status'=> 'success',
-                'message' => 'Account for '.$user.' created'
+                'status' => 'success',
+                'message' => 'Account for ' . $user . ' created'
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
-                'status'=> 'error',
+                'status' => 'error',
                 'message' => $th->getMessage()
             ], 500);
         }
     }
-    public function login(Request $request) {
-        $validate = Validator::make($request->all(),[
+
+    public function login(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
             'email' => ['required'],
             'password' => ['required', Password::min(4)]
         ]);
         if ($validate->fails()) {
-            return response()->json(['errors'=> $validate->errors()], 422);
+            return response()->json(['errors' => $validate->errors()], 422);
         }
         try {
-            if(!Auth::attempt($request->only(['email', 'password']))) {
+            if (!Auth::attempt($request->only(['email', 'password']))) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Email or password is invalid!'
-                    
                 ], 403);
             }
-            $user = User::where('email',$request->email)->first();
+            $user = User::where('email', $request->email)->first();
+            if ($user->tokens->count() > 0) {
+                $user->tokens()->delete();
+            }
+            $token = $user->createToken('AuthToken');
             return response()->json([
-                'status'=> 'success',
+                'status' => 'success',
                 'message' => 'Logged in successfully',
-                'token' => $user->createToken('AuthToken')->plainTextToken
+                'token' => $token->plainTextToken
             ], 200);
-        }  catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             return response()->json([
-                'status'=> 'error',
+                'status' => 'error',
                 'message' => $th->getMessage()
             ], 500);
         }
+    }
+
+    public function logout(Request $request)
+    {
+
+        $request->user()->tokens()->currentAcessToken()->delete();
+        return response()->json(['status' => 'success', 'message' => 'Logged out successfully'], 500);
     }
 }
