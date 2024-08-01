@@ -24,7 +24,7 @@ const formSchema = z
 		{ message: 'Passwords do not match', path: ['confirmPassword'] }
 	);
 
-const SignIn = () => {
+const SignUp = () => {
 	const [pageLoading, setPageLoading] = useState<boolean>(true);
 
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -56,7 +56,7 @@ const SignIn = () => {
 				) : (
 					<div className={`flex w-[300px] ${styleFormBorder}`}>
 						<div className='flex-row w-full'>
-							<h1 className={`text-center ${styleH1}`}>SignIn</h1>
+							<h1 className={`text-center ${styleH1}`}>SignUp</h1>
 							<div className=''>
 								<Form {...form}>
 									<form
@@ -150,4 +150,4 @@ const SignIn = () => {
 	);
 };
 
-export default SignIn;
+export default SignUp;

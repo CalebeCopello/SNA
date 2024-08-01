@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { FaGoogle } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 import { styleH1, styleFormBorder, styleFormItem, styleFormLabel, styleFormMessage, styleInput, styleButton, styleButton2 } from '../../constants/styles';
 
@@ -113,6 +114,10 @@ const Login = () => {
 										</span>
 									</Button>
 								</div>
+								<div className='mx-2 mt-3 border-textColor/50 border-t'></div>
+							<div className='mt-3 flex'>
+								<span className='mx-auto text-textColor'>Do not have an account? <Link to='/signup'>SignUp</Link></span>
+							</div>
 							</div>
 						</div>
 					</div>

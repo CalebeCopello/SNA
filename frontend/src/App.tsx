@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Index from './pages/index/Index';
 import Login from './pages/login/Login';
 import './App.css';
-import Signin from './pages/signin/Signin';
+import Signup from './pages/signup/Signup';
 
 function App() {
 	document.body.classList.add('gruvboxDark')
@@ -22,8 +22,8 @@ function App() {
 						element={<Login />}
 					/>
 					<Route
-						path='/signin'
-						element={<Signin />}
+						path='/signup'
+						element={<Signup />}
 					/>
 					<Route
 						path='*'
