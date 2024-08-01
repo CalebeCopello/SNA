@@ -5,8 +5,8 @@ import './App.css';
 import Signup from './pages/signup/Signup';
 
 function App() {
-	document.body.classList.add('gruvboxDark')
-	// document.body.classList.add('rosePineMoon')
+	// document.body.classList.add('gruvboxDark')
+	document.body.classList.add('rosePineMoon')
 	// document.body.classList.add('gruvbox')
 	document.body.classList.add('bg-background')
 	return (

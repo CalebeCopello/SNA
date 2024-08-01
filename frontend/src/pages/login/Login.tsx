@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { FaGoogle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import  Navbar  from '../../components/Navbar'
 
 import { styleH1, styleFormBorder, styleFormItem, styleFormLabel, styleFormMessage, styleInput, styleButton, styleButton2 } from '../../constants/styles';
 
@@ -41,6 +42,7 @@ const Login = () => {
 
 	return (
 		<>
+			<Navbar />
 			<div className='h-screen flex items-center justify-center'>
 				{pageLoading ? (
 					<Skeleton className='w-[300px] h-[350px] rounded bg-color08' />

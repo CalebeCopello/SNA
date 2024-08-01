@@ -1,13 +1,21 @@
+import { NavigationMenu, NavigationMenuLink } from '@radix-ui/react-navigation-menu';
+import { Link } from 'react-router-dom';
+import { MdHome, MdMail } from "react-icons/md";
+import { IoLogIn } from "react-icons/io5";
+import { FaUserPen } from "react-icons/fa6";
+import { styleMenuButton } from '../constants/styles';
+
 const Navbar = () => {
+	
 	return (
 		<>
-			<div className='border rounded mx-8 my-2 p-3'>
+			<div className='border-2 border-textColor/30 rounded mx-4 my-1 p-2 flex'>
 				<div className='w-fit'>
 					<svg
 						version='1.0'
 						xmlns='http://www.w3.org/2000/svg'
 						viewBox='0 0 750.000000 860.000000'
-						className='fill-textColor h-[80px] w-[80px]'
+						className='fill-textColor h-[36px] w-[36px]'
 					>
 						<g transform='translate(0.000000,860.000000) scale(0.100000,-0.100000)'>
 							<path d='M1818 7557 l-1817 -1042 0 -2225 -1 -2225 1797 -1030 1797 -1030 131 -3 130 -2 1820 1044 1820 1044 3 2200 2 2200 -1841 1056 -1842 1056 -91 0 -91 -1 -1817 -1042z m3667 -251 l1750 -1004 0 -2013 0 -2013 -1750 -1003 c-962 -552 -1755 -1002 -1762 -1001 -6 2 -797 453 -1757 1003 l-1745 1000 2 2015 2 2015 1745 1002 c960 551 1750 1002 1755 1002 6 1 798 -451 1760 -1003z' />
@@ -16,6 +24,24 @@ const Navbar = () => {
 							<path d='M4970 4633 c0 -1429 3 -2757 7 -2951 6 -351 6 -352 27 -346 24 7 363 199 443 250 l52 33 3 1190 c2 654 7 1193 11 1198 11 11 813 11 824 0 4 -5 9 -421 11 -925 1 -504 4 -927 7 -939 3 -13 12 -23 20 -23 15 0 203 99 390 207 l120 69 3 1769 c2 974 0 1825 -3 1892 l-7 122 -156 89 c-130 74 -667 374 -962 537 -41 23 -160 90 -265 150 -366 208 -489 275 -507 275 -17 0 -18 -104 -18 -2597z m992 1431 c141 -78 282 -160 315 -181 l58 -38 6 -140 c4 -77 7 -366 8 -642 l1 -502 -46 -7 c-61 -9 -781 0 -791 10 -10 10 -17 1597 -8 1684 l7 63 96 -52 c54 -29 212 -116 354 -195z' />
 						</g>
 					</svg>
+				</div>
+				<div className=' w-full flex relative self-center h-7'>
+					<NavigationMenu className='ml-8'>
+						<Link to='/' className=''>
+							<NavigationMenuLink className={`${styleMenuButton}`}><MdHome className='text-textColor inline mr-2 ml-1'/>Home</NavigationMenuLink>
+						</Link>
+						<Link to='/contact'>
+							<NavigationMenuLink className={`${styleMenuButton}`}><MdMail className='text-textColor inline mr-2 ml-1'/>Contact</NavigationMenuLink>
+						</Link>
+						<div className='flex absolute right-0 top-0'>
+							<Link to='/login'>
+								<NavigationMenuLink className={`${styleMenuButton} `}><IoLogIn className='text-textColor inline mr-2 ml-1'/>Log In</NavigationMenuLink>
+							</Link>
+							<Link to='/signup'>
+								<NavigationMenuLink className={`${styleMenuButton}`}><FaUserPen className='text-textColor inline mr-2 ml-1'/>Sign Up</NavigationMenuLink>
+							</Link>
+						</div>
+					</NavigationMenu>
 				</div>
 			</div>
 		</>
