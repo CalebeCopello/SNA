@@ -1,12 +1,11 @@
-import { NavigationMenu, NavigationMenuLink } from '@radix-ui/react-navigation-menu';
-import { Link } from 'react-router-dom';
-import { MdHome, MdMail } from "react-icons/md";
-import { IoLogIn } from "react-icons/io5";
-import { FaUserPen } from "react-icons/fa6";
+import { NavigationMenu } from '@radix-ui/react-navigation-menu';
+import { NavLink } from 'react-router-dom';
+import { MdHome, MdMail } from 'react-icons/md';
+import { IoLogIn } from 'react-icons/io5';
+import { FaUserPen } from 'react-icons/fa6';
 import { styleMenuButton } from '../constants/styles';
 
 const Navbar = () => {
-	
 	return (
 		<>
 			<div className='border-2 border-textColor/30 rounded mx-4 my-1 p-2 flex'>
@@ -25,21 +24,55 @@ const Navbar = () => {
 						</g>
 					</svg>
 				</div>
-				<div className=' w-full flex relative self-center h-7'>
-					<NavigationMenu className='ml-8'>
-						<Link to='/' className=''>
-							<NavigationMenuLink className={`${styleMenuButton}`}><MdHome className='text-textColor inline mr-2 ml-1'/>Home</NavigationMenuLink>
-						</Link>
-						<Link to='/contact'>
-							<NavigationMenuLink className={`${styleMenuButton}`}><MdMail className='text-textColor inline mr-2 ml-1'/>Contact</NavigationMenuLink>
-						</Link>
+				<div className=' w-full flex relative self-center h-8 ml-2'>
+					<NavigationMenu className=''>
+						<div className='flex absolute left-0 top-0'>
+							<NavLink
+								to='/'
+								className={({ isActive }) => {
+									return isActive ? 'text-color01' : 'text-textColor ';
+								}}
+							>
+								<div className={`${styleMenuButton}`}>
+									<MdHome className='inline mr-2 ml-1' />
+									Home
+								</div>
+							</NavLink>
+							<NavLink
+								to='/contact'
+								className={({ isActive }) => {
+									return isActive ? 'text-color01' : 'text-textColor ';
+								}}
+							>
+								<div className={`${styleMenuButton}`}>
+									<MdMail className='inline mr-2 ml-1' />
+									Contact
+								</div>
+							</NavLink>
+						</div>
 						<div className='flex absolute right-0 top-0'>
-							<Link to='/login'>
-								<NavigationMenuLink className={`${styleMenuButton} `}><IoLogIn className='text-textColor inline mr-2 ml-1'/>Log In</NavigationMenuLink>
-							</Link>
-							<Link to='/signup'>
-								<NavigationMenuLink className={`${styleMenuButton}`}><FaUserPen className='text-textColor inline mr-2 ml-1'/>Sign Up</NavigationMenuLink>
-							</Link>
+							<NavLink
+								to='/login'
+								className={({ isActive }) => {
+									return isActive ? 'text-color01' : 'text-textColor ';
+								}}
+							>
+								<div className={`${styleMenuButton} `}>
+									<IoLogIn className='inline mr-2 ml-1' />
+									Log In
+								</div>
+							</NavLink>
+							<NavLink
+								to='/signup'
+								className={({ isActive }) => {
+									return isActive ? 'text-color01' : 'text-textColor ';
+								}}
+							>
+								<div className={`${styleMenuButton}`}>
+									<FaUserPen className='inline mr-2 ml-1' />
+									Sign Up
+								</div>
+							</NavLink>
 						</div>
 					</NavigationMenu>
 				</div>

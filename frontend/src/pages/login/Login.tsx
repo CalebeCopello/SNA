@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
+
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -6,10 +8,12 @@ import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { FaGoogle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import  Navbar  from '../../components/Navbar'
 
+
+import { FaGoogle } from 'react-icons/fa';
+
+import  Navbar  from '../../components/Navbar'
 import { styleH1, styleFormBorder, styleFormItem, styleFormLabel, styleFormMessage, styleInput, styleButton, styleButton2 } from '../../constants/styles';
 
 const formSchema = z.object({
@@ -37,8 +41,6 @@ const Login = () => {
 	useEffect(() => {
 		setPageLoading(false);
 	}, []);
-
-	console.log(pageLoading);
 
 	return (
 		<>
