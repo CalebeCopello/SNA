@@ -10,7 +10,7 @@ import { FaGoogle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 
-import { styleH1, styleFormBorder, styleFormItem, styleFormLabel, styleFormMessage, styleInput, styleButton, styleButton2 } from '../../constants/styles';
+import { styleMainContainer, styleH1, styleFormBorder, styleFormItem, styleFormLabel, styleFormMessage, styleInput, styleButton, styleButton2 } from '../../constants/styles';
 
 const formSchema = z
 	.object({
@@ -52,7 +52,7 @@ const SignUp = () => {
 	return (
 		<>
 			<Navbar />
-			<div className='h-screen flex items-center justify-center'>
+			<div className={`${styleMainContainer}`}>
 				{pageLoading ? (
 					<Skeleton className='w-[300px] h-[350px] rounded bg-color08' />
 				) : (

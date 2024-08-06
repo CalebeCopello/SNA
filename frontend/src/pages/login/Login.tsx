@@ -16,7 +16,7 @@ import { FaGoogle } from 'react-icons/fa';
 import { GoAlertFill } from 'react-icons/go';
 
 import Navbar from '../../components/Navbar';
-import { styleH1, styleFormBorder, styleFormItem, styleFormLabel, styleFormMessage, styleInput, styleButton, styleButton2, styleAlertError } from '../../constants/styles';
+import { styleMainContainer, styleH1, styleFormBorder, styleFormItem, styleFormLabel, styleFormMessage, styleInput, styleButton, styleButton2, styleAlertError } from '../../constants/styles';
 
 const formSchema = z.object({
 	email: z.string().email({ message: 'Email is required' }).trim().toLowerCase(),
@@ -83,7 +83,7 @@ const Login = () => {
 	return (
 		<>
 			<Navbar />
-			<div className='h-screen flex items-center justify-center'>
+			<div className={`${styleMainContainer}`}>
 				{pageLoading ? (
 					<Skeleton className='w-[300px] h-[350px] rounded bg-color08' />
 				) : (

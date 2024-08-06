@@ -1,13 +1,15 @@
 import { Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 
+import { styleMainContainer } from '@/constants/styles';
+
 const Fof = () => {
     const cat:number = Math.floor(Math.random() * (3) + 1);
     console.log(cat)
 	return (
 		<>
 			<Navbar />
-			<div className='h-screen flex items-center justify-center'>
+			<div className={`${styleMainContainer}`}>
 				<div className='flex-row'>
                     <h1 className='text-textColor text-center text-3xl font-bold'>404</h1>
 					<h2 className='text-textColor text-center'>You seems lost</h2>
