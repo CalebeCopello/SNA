@@ -1,20 +1,22 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Link, useNavigate } from 'react-router-dom';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { Link } from 'react-router-dom';
-
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 import { FaGoogle } from 'react-icons/fa';
+import { GoAlertFill } from 'react-icons/go';
 
-import  Navbar  from '../../components/Navbar'
-import { styleH1, styleFormBorder, styleFormItem, styleFormLabel, styleFormMessage, styleInput, styleButton, styleButton2 } from '../../constants/styles';
+import Navbar from '../../components/Navbar';
+import { styleH1, styleFormBorder, styleFormItem, styleFormLabel, styleFormMessage, styleInput, styleButton, styleButton2, styleAlertError } from '../../constants/styles';
 
 const formSchema = z.object({
 	email: z.string().email({ message: 'Email is required' }).trim().toLowerCase(),
@@ -23,6 +25,11 @@ const formSchema = z.object({
 
 const Login = () => {
 	const [pageLoading, setPageLoading] = useState<boolean>(true);
+	const [errorForm, setErrorForm] = useState<boolean>(false);
+	const [errorMessage, setErrorMessage] = useState<string>('');
+
+	const URL: string = import.meta.env.VITE_API_URL;
+	const navigate = useNavigate();
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -35,7 +42,38 @@ const Login = () => {
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		// Do something with the form values.
 		// ✅ This will be type-safe and validated.
-		console.log(values);
+		axios
+			.post(`${URL}api/login`, {
+				email: values.email,
+				password: values.password,
+			})
+			.then((res) => {
+				//Console Debug
+				// console.debug(`Form Submit Success Status:`, res.data.status);
+				// console.debug(`Form Submit Success Json Status:`, res.data.status);
+				// console.debug(`Form Submit Success Json Message:`, res.data.message);
+				// console.debug(`Form Submit Success Json Token:`, res.data.token);
+				setErrorForm(() => false);
+				const TOKEN: string = `Bearer ${res.data.token}`;
+				Cookies.set('SNAAuth', TOKEN, { sameSite: 'strict', expires: 365 });
+				navigate('/profile');
+				console.log(`okay`);
+			})
+			.catch((err) => {
+				setErrorForm(() => true);
+				if (err.response) {
+					console.error(`From Submit Error Data:`, err.response.data);
+					console.error(`From Submit Error Status:`, err.response.status);
+					console.error(`From Submit Error Headers:`, err.response.headers);
+					setErrorMessage(() => err.response.data.message);
+				} else if (err.resquest) {
+					console.error(`From Submit No Response:`, err.resquest);
+				} else {
+					console.error(`From Submit Error Message:`, err.message);
+					setErrorMessage(() => err.message);
+				}
+				console.log(`From Submit Error Config:`, err.config);
+			});
 	}
 
 	useEffect(() => {
@@ -103,25 +141,32 @@ const Login = () => {
 										</div>
 									</form>
 								</Form>
-								<div className="mt-3 mx-2 flex">
-									<div className="self-center border-textColor/50 border-t w-full"></div>
-									<span className="mx-2 text-textColor flex-grow-1">
-									or
-									</span>
-									<div className="self-center border-textColor/50 border-t w-full"></div>
+								<div className=''>
+									{errorForm && (
+										<Alert className={`mt-3 ${styleAlertError}`}>
+											<GoAlertFill className='text-color02' />
+											<AlertTitle className='text-textColor'>Error</AlertTitle>
+											<AlertDescription className='text-textColor'>{errorMessage}</AlertDescription>
+										</Alert>
+									)}
+								</div>
+								<div className='mt-3 mx-2 flex'>
+									<div className='self-center border-textColor/50 border-t w-full'></div>
+									<span className='mx-2 text-textColor flex-grow-1'>or</span>
+									<div className='self-center border-textColor/50 border-t w-full'></div>
 								</div>
 								<div className='mt-3 flex'>
 									<Button className={`mx-auto ${styleButton2}`}>
 										<FaGoogle className='text-color01' />
-										<span className="ml-2">
-										Use Google account
-										</span>
+										<span className='ml-2'>Use Google account</span>
 									</Button>
 								</div>
 								<div className='mx-2 mt-3 border-textColor/50 border-t'></div>
-							<div className='mt-3 flex'>
-								<span className='mx-auto text-textColor'>Do not have an account? <Link to='/signup'>SignUp</Link></span>
-							</div>
+								<div className='mt-3 flex'>
+									<span className='mx-auto text-textColor'>
+										Do not have an account? <Link to='/signup'>SignUp</Link>
+									</span>
+								</div>
 							</div>
 						</div>
 					</div>

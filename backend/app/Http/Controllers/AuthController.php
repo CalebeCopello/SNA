@@ -58,12 +58,9 @@ class AuthController extends Controller
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Email or password is invalid!'
-                ], 403);
+                ], 401);
             }
             $user = User::where('email', $request->email)->first();
-            if ($user->tokens->count() > 0) {
-                $user->tokens()->delete();
-            }
             $token = $user->createToken('AuthToken');
             return response()->json([
                 'status' => 'success',
