@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 // })->middleware('auth:sanctum');
 
 
-Route::post("register",[AuthController::class,"register"]);
+Route::post("signup",[AuthController::class,"signup"]);
 Route::post("login",[AuthController::class,"login"]);
 Route::delete("logout",[AuthController::class,"logout"])->middleware('auth:sanctum');
 

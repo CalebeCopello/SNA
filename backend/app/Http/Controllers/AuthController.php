@@ -11,19 +11,19 @@ use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function signup(Request $request)
     {
         $validate = Validator::make(
             $request->all(),
             [
-                'username' => ['required', 'unique:users,username'],
+                'username' => ['required', 'regex:/^[a-zA-Z0-9\-_]+$/','unique:users,username'],
                 'email' => ['required', 'email', 'unique:users,email'],
                 'password' => ['required', Password::min(4)]
             ]
         );
 
         if ($validate->fails()) {
-            return response()->json(['errors' => $validate->errors()], 422);
+            return response()->json(['errors' => $validate->errors()->all()], 422);
         }
         try {
             $user = $request->username;

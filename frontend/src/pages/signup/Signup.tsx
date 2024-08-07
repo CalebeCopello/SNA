@@ -1,22 +1,33 @@
 import { useEffect, useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { FaGoogle } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import Navbar from '../../components/Navbar';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
-import { styleMainContainer, styleH1, styleFormBorder, styleFormItem, styleFormLabel, styleFormMessage, styleInput, styleButton, styleButton2 } from '../../constants/styles';
+import { GoAlertFill } from 'react-icons/go';
+import { FaGoogle } from 'react-icons/fa';
+
+import Navbar from '../../components/Navbar';
+import { styleMainContainer, styleH1, styleFormBorder, styleFormItem, styleFormLabel, styleFormMessage, styleInput, styleButton, styleButton2, styleAlertError } from '../../constants/styles';
 
 const formSchema = z
 	.object({
+		username: z
+			.string()
+			.min(3, { message: 'Username must be 3 or more characters long' })
+			.max(20, { message: 'Username must be at most 20 characters long' })
+			.regex(/^[a-zA-Z0-9\-_]+$/, { message: 'Username can only contain letters, numbers, hyphens, and underscores' })
+			.trim(),
 		email: z.string().email({ message: 'Email is required' }).trim().toLowerCase(),
-		password: z.string().min(4).max(20),
-		confirmPassword: z.string().min(4).max(20),
+		password: z.string().min(4, { message: 'Password must be 4 or more characters long' }).max(20, { message: 'Password must be at most 20 characters long' }),
+		confirmPassword: z.string().min(4, { message: 'Password must be 4 or more characters long' }).max(20, { message: 'Password must be at most 20 characters long' }),
 	})
 	.refine(
 		(data) => {
@@ -27,10 +38,16 @@ const formSchema = z
 
 const SignUp = () => {
 	const [pageLoading, setPageLoading] = useState<boolean>(true);
+	const [errorForm, setErrorForm] = useState<boolean>(false);
+	const [errorMessage, setErrorMessage] = useState<string[]>([]);
+
+	const URL: string = import.meta.env.VITE_API_URL;
+	const navigate = useNavigate();
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
+			username: '',
 			email: '',
 			password: '',
 			confirmPassword: '',
@@ -40,6 +57,38 @@ const SignUp = () => {
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		// Do something with the form values.
 		// ✅ This will be type-safe and validated.
+		setErrorMessage(() => []);
+		axios
+			.post(`${URL}api/signup`, {
+				username: values.username,
+				email: values.email,
+				password: values.password,
+			})
+			.then((res) => {
+				//Console Debug
+				console.debug('Form Submit Succes Status:', res.data.status);
+				console.debug('Form Submit Succes Json Status:', res.data.status);
+				console.debug('Form Submit Succes Json Message:', res.data.message);
+				setErrorForm(() => false);
+				navigate('/login');
+			})
+			.catch((err) => {
+				setErrorForm(() => true);
+				if (err.response) {
+					console.error(`From Submit Error Data:`, err.response.data.errors);
+					console.error(`From Submit Error Status:`, err.response.status);
+					console.error(`From Submit Error Headers:`, err.response.headers);
+					err.response.data.errors.forEach((error: string) => {
+						setErrorMessage((prev: string[]) => [...prev, error]);
+					});
+				} else if (err.request) {
+					console.error(`Form Submit No Response`, err.request);
+				} else {
+					console.error(`Form Submit Error Message`, err.message);
+					setErrorMessage(() => err.response.message);
+				}
+				console.error(`Form Submit Error Config:`, err.config);
+			});
 		console.log(values);
 	}
 
@@ -65,6 +114,23 @@ const SignUp = () => {
 										onSubmit={form.handleSubmit(onSubmit)}
 										className='flex-row'
 									>
+										<FormField
+											control={form.control}
+											name='username'
+											render={({ field }) => (
+												<FormItem className={`${styleFormItem}`}>
+													<FormLabel className={`${styleFormLabel}`}>Username:</FormLabel>
+													<FormControl>
+														<Input
+															placeholder='Username'
+															className={`${styleInput}`}
+															{...field}
+														/>
+													</FormControl>
+													<FormMessage className={`${styleFormMessage}`} />
+												</FormItem>
+											)}
+										/>
 										<FormField
 											control={form.control}
 											name='email'
@@ -128,6 +194,15 @@ const SignUp = () => {
 										</div>
 									</form>
 								</Form>
+								<div className=''>
+									{errorForm && (
+										<Alert className={`mt-3 ${styleAlertError}`}>
+											<GoAlertFill className='text-color02' />
+											<AlertTitle className='text-textColor'>Error</AlertTitle>
+											<AlertDescription className='text-textColor'>{errorMessage}</AlertDescription>
+										</Alert>
+									)}
+								</div>
 								<div className='mt-3 mx-2 flex'>
 									<div className='self-center border-textColor/50 border-t w-full'></div>
 									<span className='mx-2 text-textColor flex-grow-1'>or</span>

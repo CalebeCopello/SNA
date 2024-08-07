@@ -42,6 +42,7 @@ const Login = () => {
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		// Do something with the form values.
 		// ✅ This will be type-safe and validated.
+		setErrorMessage(() => '');
 		axios
 			.post(`${URL}api/login`, {
 				email: values.email,
@@ -57,7 +58,6 @@ const Login = () => {
 				const TOKEN: string = `Bearer ${res.data.token}`;
 				Cookies.set('SNAAuth', TOKEN, { sameSite: 'strict', expires: 365 });
 				navigate('/profile');
-				console.log(`okay`);
 			})
 			.catch((err) => {
 				setErrorForm(() => true);
