@@ -83,7 +83,7 @@ const Login = () => {
 	return (
 		<>
 			<Navbar />
-			<div className={`${styleMainContainer}`}>
+			<main className={`${styleMainContainer}`}>
 				{pageLoading ? (
 					<Skeleton className='w-[300px] h-[350px] rounded bg-color08' />
 				) : (
@@ -171,7 +171,7 @@ const Login = () => {
 						</div>
 					</div>
 				)}
-			</div>
+			</main>
 		</>
 	);
 };

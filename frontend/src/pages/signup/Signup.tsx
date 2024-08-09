@@ -70,7 +70,7 @@ const SignUp = () => {
 				console.debug('Form Submit Succes Json Status:', res.data.status);
 				console.debug('Form Submit Succes Json Message:', res.data.message);
 				setErrorForm(() => false);
-				navigate('/login');
+				navigate('/profile');
 			})
 			.catch((err) => {
 				setErrorForm(() => true);
@@ -101,7 +101,7 @@ const SignUp = () => {
 	return (
 		<>
 			<Navbar />
-			<div className={`${styleMainContainer}`}>
+			<main className={`${styleMainContainer}`}>
 				{pageLoading ? (
 					<Skeleton className='w-[300px] h-[350px] rounded bg-color08' />
 				) : (
@@ -224,7 +224,7 @@ const SignUp = () => {
 						</div>
 					</div>
 				)}
-			</div>
+			</main>
 		</>
 	);
 };

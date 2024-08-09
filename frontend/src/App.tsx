@@ -4,6 +4,7 @@ import Index from './pages/index/Index';
 import Login from './pages/login/Login';
 import Signup from './pages/signup/Signup';
 import Fof from './pages/fof/Fof';
+import Profile from './pages/profile/Profile';
 
 import './App.css';
 
@@ -27,6 +28,10 @@ function App() {
 					<Route
 						path='/signup'
 						element={<Signup />}
+					/>
+					<Route
+						path='/profile'
+						element={<Profile />}
 					/>
 					<Route
 						path='*'

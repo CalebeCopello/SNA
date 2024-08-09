@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function profile(Request $request) {
-        if (!Auth::check()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Unauthorized'
-            ], 403);
-        }
+    public function profile(Request $request)
+    {
+        $userInfo = $request->user();
+        // dd($userInfo);
         return response()->json([
-            'status'=> 'success',
-            'message' => 'view profile'
+            'username' => $userInfo->username,
+            'avatar' => $userInfo->avatar,
+            'email' => $userInfo->email,
+            'created_at' => $userInfo->created_at
         ], 200);
     }
 }

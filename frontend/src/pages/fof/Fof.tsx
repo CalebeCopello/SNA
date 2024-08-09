@@ -9,7 +9,7 @@ const Fof = () => {
 	return (
 		<>
 			<Navbar />
-			<div className={`${styleMainContainer}`}>
+			<main className={`${styleMainContainer}`}>
 				<div className='flex-row'>
                     <h1 className='text-textColor text-center text-3xl font-bold'>404</h1>
 					<h2 className='text-textColor text-center'>You seems lost</h2>
@@ -22,7 +22,7 @@ const Fof = () => {
 						alt='a cat lost'
 					/>
 				</div>
-			</div>
+			</main>
 		</>
 	);
 };
