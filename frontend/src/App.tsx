@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Index from './pages/index/Index';
@@ -5,6 +6,7 @@ import Login from './pages/login/Login';
 import Signup from './pages/signup/Signup';
 import Fof from './pages/fof/Fof';
 import Profile from './pages/profile/Profile';
+import Appearance from './pages/appearance/Appearance'
 
 import './App.css';
 
@@ -32,6 +34,10 @@ function App() {
 					<Route
 						path='/profile'
 						element={<Profile />}
+					/>
+					<Route
+						path='/appearance'
+						element={<Appearance />}
 					/>
 					<Route
 						path='*'

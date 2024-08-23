@@ -1,14 +1,16 @@
-import { NavigationMenu } from '@radix-ui/react-navigation-menu';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { NavigationMenu } from '@radix-ui/react-navigation-menu';
+
 import { MdHome, MdMail } from 'react-icons/md';
 import { IoLogIn } from 'react-icons/io5';
 import { FaUserPen } from 'react-icons/fa6';
-import { styleMenuButton } from '../constants/styles';
+import { styleMenuButton, styleBoxBorder } from '../constants/styles';
 
 const Navbar = () => {
 	return (
 		<>
-			<div className='border-2 border-textColor/30 rounded mx-4 my-1 p-2 flex'>
+			<div className={`${styleBoxBorder} mx-4 my-1 p-2 flex`}>
 				<div className='w-fit'>
 					<svg
 						version='1.0'

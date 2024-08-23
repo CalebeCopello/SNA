@@ -11,7 +11,6 @@ class UserController extends Controller
     public function profile(Request $request)
     {
         $userInfo = $request->user();
-        // dd($userInfo);
         return response()->json([
             'username' => $userInfo->username,
             'avatar' => $userInfo->avatar,
