@@ -15,7 +15,8 @@ class UserController extends Controller
             'username' => $userInfo->username,
             'avatar' => $userInfo->avatar,
             'email' => $userInfo->email,
-            'created_at' => $userInfo->created_at
+            'created_at' => $userInfo->created_at,
+            'theme' => $userInfo->theme
         ], 200);
     }
 }

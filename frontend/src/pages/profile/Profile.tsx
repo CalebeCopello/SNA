@@ -8,6 +8,8 @@ import Navbar from '@/components/Navbar';
 import { styleMainContainer, styleBoxBorder } from '@/constants/styles';
 import UserMenubar from '@/components/UserMenubar';
 
+// import useIsLogged from '../../hooks/useIsLogged';
+
 interface userInfo {
 	username: string;
 	avatar: string;
@@ -20,7 +22,8 @@ const Profile = () => {
 
 	const navigate = useNavigate();
 
-	
+	// const { loaded, logged } = useIsLogged();
+	// console.log(loaded, logged);
 	useEffect(() => {
 		const URL: string = import.meta.env.VITE_API_URL;
 		const TOKEN: string | undefined = Cookies.get('SNAAuth');
@@ -44,7 +47,7 @@ const Profile = () => {
 					console.error(`From Submit Error Data:`, err.response.data);
 					console.error(`From Submit Error Status:`, err.response.status);
 					console.error(`From Submit Error Headers:`, err.response.headers);
-					navigate('/login');
+					// navigate('/login');
 				} else if (err.resquest) {
 					console.error(`From Submit No Response:`, err.resquest);
 				} else {
@@ -56,6 +59,7 @@ const Profile = () => {
 	return (
 		<>
 			<Navbar />
+
 			<div className='flex mx-4'>
 				<UserMenubar />
 				<main className={`${styleMainContainer} ${styleBoxBorder} ml-1 w-full`}>

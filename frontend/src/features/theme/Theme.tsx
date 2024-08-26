@@ -13,7 +13,7 @@ const Theme = () => {
 		<>
 			<div className=''>Theme selector: {theme}</div>
 			<div className=''>
-				<RadioGroup>
+				<RadioGroup defaultValue={theme}>
 					<div className=''>
 						<RadioGroupItem
 							value='gruvbox'

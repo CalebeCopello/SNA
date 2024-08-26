@@ -1,20 +1,21 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+import ProtectedRoute from './components/ProtectedRoute';
 import Index from './pages/index/Index';
 import Login from './pages/login/Login';
 import Signup from './pages/signup/Signup';
 import Fof from './pages/fof/Fof';
 import Profile from './pages/profile/Profile';
-import Appearance from './pages/appearance/Appearance'
+import Appearance from './pages/appearance/Appearance';
 
 import './App.css';
 
 function App() {
 	// document.body.classList.add('gruvboxDark')
 	// document.body.classList.add('rosePineMoon')
-	document.body.classList.add('gruvbox')
-	document.body.classList.add('bg-background')
+	document.body.classList.add('gruvbox');
+	document.body.classList.add('bg-background');
 	return (
 		<>
 			<BrowserRouter>
@@ -33,11 +34,11 @@ function App() {
 					/>
 					<Route
 						path='/profile'
-						element={<Profile />}
+						element={<ProtectedRoute children={<Profile />}/>}
 					/>
 					<Route
 						path='/appearance'
-						element={<Appearance />}
+						element={<ProtectedRoute children={<Appearance />}/>}
 					/>
 					<Route
 						path='*'
