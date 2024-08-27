@@ -26,8 +26,8 @@ class UserController extends Controller
         try {
             User::find($id)->update(['theme' => $theme]);
         } catch (\Exception $exception) {
-            return response()->json(['message' => 'no', 'exception' => $exception->getMessage()], 500);
+            return response()->json(['status' => 'error', 'message' => $exception->getMessage()], 500);
         }
-            return response()->json(['message' => 'ok'], 200);
+            return response()->json(['status' => 'success', 'message' => 'theme change to: '. $theme], 200);
     }
 }
