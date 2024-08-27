@@ -10,7 +10,7 @@ import { FaUserPen } from 'react-icons/fa6';
 import { CgProfile } from 'react-icons/cg';
 import { styleMenuButton, styleBoxBorder } from '../constants/styles';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 
 const Navbar = () => {
 	const { isUserInfoloaded, isUserLogged } = useIsUserLogged();
@@ -30,7 +30,6 @@ const Navbar = () => {
 							>
 								<SheetHeader>
 									<SheetTitle>Menu</SheetTitle>
-									{/* <SheetDescription>This action cannot be undone. This will permanently delete your account and remove your data from our servers.</SheetDescription> */}
 								</SheetHeader>
 								<NavLink
 									to='/'
@@ -84,7 +83,6 @@ const Navbar = () => {
 										>
 											<SheetHeader>
 												<SheetTitle>User Menu</SheetTitle>
-												{/* <SheetDescription>This action cannot be undone. This will permanently delete your account and remove your data from our servers.</SheetDescription> */}
 											</SheetHeader>
 											<NavLink
 												to='/profile'
@@ -112,28 +110,41 @@ const Navbar = () => {
 									</Sheet>
 								) : (
 									<>
-										<NavLink
-											to='/login'
-											className={({ isActive }) => {
-												return isActive ? 'text-color01' : 'text-textColor ';
-											}}
-										>
-											<div className={`${styleMenuButton} `}>
-												<IoLogIn className='inline mr-2 ml-1' />
-												Log In
-											</div>
-										</NavLink>
-										<NavLink
-											to='/signup'
-											className={({ isActive }) => {
-												return isActive ? 'text-color01' : 'text-textColor ';
-											}}
-										>
-											<div className={`${styleMenuButton}`}>
-												<FaUserPen className='inline mr-2 ml-1' />
-												Sign Up
-											</div>
-										</NavLink>
+										<Sheet>
+											<SheetTrigger>
+												<CgProfile className={`${styleMenuButton} text-textColor h-[30px] w-[30px] hover:text-color01`} />
+											</SheetTrigger>
+											<SheetContent
+												side='right'
+												className={`rounded-l-xl`}
+											>
+												<SheetHeader>
+													<SheetTitle>User Menu</SheetTitle>
+												</SheetHeader>
+												<NavLink
+													to='/login'
+													className={({ isActive }) => {
+														return isActive ? 'text-color01' : 'text-textColor ';
+													}}
+												>
+													<div className={`${styleMenuButton} mb-1`}>
+														<IoLogIn className='inline mr-2 ml-1' />
+														Log In
+													</div>
+												</NavLink>
+												<NavLink
+													to='/signup'
+													className={({ isActive }) => {
+														return isActive ? 'text-color01' : 'text-textColor ';
+													}}
+												>
+													<div className={`${styleMenuButton}`}>
+														<FaUserPen className='inline mr-2 ml-1' />
+														Sign Up
+													</div>
+												</NavLink>
+											</SheetContent>
+										</Sheet>
 									</>
 								)
 							) : (
