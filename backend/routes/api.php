@@ -16,5 +16,5 @@ Route::delete("logout",[AuthController::class,"logout"])->middleware('auth:sanct
 
 Route::prefix('user')->middleware('auth:sanctum')->group(function() {
     Route::get('profile', [UserController::class, 'profile']);
-    Route::post('addItem', [UserController::class, 'addItem']);
+    Route::put('changeTheme', [UserController::class, 'changeTheme']);
 });

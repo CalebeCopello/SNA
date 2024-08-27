@@ -19,4 +19,15 @@ class UserController extends Controller
             'theme' => $userInfo->theme
         ], 200);
     }
+    public function changeTheme(Request $request)
+    {
+        $id = $request->user()->id;
+        $theme = $request->input('theme');
+        try {
+            User::find($id)->update(['theme' => $theme]);
+        } catch (\Exception $exception) {
+            return response()->json(['message' => 'no', 'exception' => $exception->getMessage()], 500);
+        }
+            return response()->json(['message' => 'ok'], 200);
+    }
 }
