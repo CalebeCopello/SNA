@@ -14,18 +14,12 @@ export const themeSlice = createSlice({
 	name: 'theme',
 	initialState,
 	reducers: {
-		gruvbox: (state) => {
-			state.value = 'gruvbox';
-		},
-		gruvboxDark: (state) => {
-			state.value = 'gruvboxDark';
-		},
-		rosePineMoon: (state) => {
-			state.value = 'rosePineMoon';
+		changeTheme: (state, action) => {
+			state.value = action.payload;
 		},
 	},
 });
 
-export const { gruvbox, gruvboxDark, rosePineMoon } = themeSlice.actions;
+export const { changeTheme } = themeSlice.actions;
 
 export default themeSlice.reducer;
