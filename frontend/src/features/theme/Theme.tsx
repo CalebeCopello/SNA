@@ -11,6 +11,7 @@ import { styleH1, styleBoxBorder } from '../../constants/styles';
 const Theme = () => {
 	const theme = useAppSelector((state) => state.theme.value);
 	const dispatch = useAppDispatch();
+	const themeList = ['gruvbox', 'gruvboxDark', 'rosePineMoon']
 	return (
 		<>
 			<div className='flex-row w-full h-full p-3'>
@@ -22,50 +23,24 @@ const Theme = () => {
 				<div className=''>
 					<RadioGroup
 						defaultValue={theme}
-						className='lg:flex place-content-evenly'
+						className='grid md:grid-cols-2 lg:grid-cols-3 max-w-3xl mx-auto'
 					>
-						<div className={`${styleBoxBorder} p-1 flex-row`}>
+						{themeList.map((item, key) => (
+							<div className={`${styleBoxBorder} w-fit mx-auto p-1 flex-row`} key={key}>
 							<div className=''>
-								<ThemeExample themeName='gruvbox' />
+								<ThemeExample themeName={item} />
 							</div>
 							<div className='flex mt-2'>
 								<RadioGroupItem
-									value='gruvbox'
-									id='gruvbox'
-									onClick={() => dispatch(changeTheme('gruvbox'))}
+									value={item}
+									id={item}
+									onClick={() => dispatch(changeTheme(item))}
 									className='mr-1'
 								/>
-								<Label htmlFor='gruvbox'>GruvBox</Label>
+								<Label htmlFor={item}>{item}</Label>
 							</div>
 						</div>
-						<div className={`${styleBoxBorder} p-1`}>
-							<div className=''>
-								<ThemeExample themeName='gruvboxDark' />
-							</div>
-							<div className='flex mt-2'>
-								<RadioGroupItem
-									value='gruvboxDark'
-									id='gruvboxDark'
-									onClick={() => dispatch(changeTheme('gruvboxDark'))}
-									className='mr-1'
-								/>
-								<Label htmlFor='gruvboxDark'>GruvBox Dark</Label>
-							</div>
-						</div>
-						<div className={`${styleBoxBorder} p-1`}>
-							<div className=''>
-								<ThemeExample themeName='rosePineMoon' />
-							</div>
-							<div className="flex mt-2">
-							<RadioGroupItem
-								value='rosePineMoon'
-								id='rosePineMoon'
-								onClick={() => dispatch(changeTheme('rosePineMoon'))}
-								className='mr-1'
-							/>
-							<Label htmlFor='rosePineMoon'>RosePineMoon</Label>
-							</div>
-						</div>
+						))}
 					</RadioGroup>
 				</div>
 			</div>
