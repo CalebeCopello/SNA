@@ -46,6 +46,7 @@ const Appearance = () => {
 					<UserMenubar />
 					<main className={`${styleMainContainer} ${styleBoxBorder} ml-1 w-full`}>
                         <Theme />
+
                     </main>
 				</div>
 			</>

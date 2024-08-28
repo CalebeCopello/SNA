@@ -3,6 +3,7 @@ import React from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { changeTheme } from './themeSlice';
 
+import ThemeExample from '../../components/ThemeExample';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
@@ -15,22 +16,31 @@ const Theme = () => {
 			<div className=''>
 				<RadioGroup defaultValue={theme}>
 					<div className=''>
+						<div className=''>
+							<ThemeExample themeName='gruvbox' />
+						</div>
 						<RadioGroupItem
 							value='gruvbox'
 							id='gruvbox'
 							onClick={() => dispatch(changeTheme('gruvbox'))}
-							/>
+						/>
 						<Label htmlFor='gruvbox'>GruvBox</Label>
 					</div>
 					<div className=''>
+					<div className=''>
+							<ThemeExample themeName='gruvboxDark' />
+						</div>
 						<RadioGroupItem
 							value='gruvboxDark'
 							id='gruvboxDark'
 							onClick={() => dispatch(changeTheme('gruvboxDark'))}
-							/>
+						/>
 						<Label htmlFor='gruvboxDark'>GruvBox Dark</Label>
 					</div>
 					<div className=''>
+					<div className=''>
+							<ThemeExample themeName='rosePineMoon' />
+						</div>
 						<RadioGroupItem
 							value='rosePineMoon'
 							id='rosePineMoon'
