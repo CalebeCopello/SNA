@@ -9,6 +9,7 @@ import Signup from './pages/signup/Signup';
 import Fof from './pages/fof/Fof';
 import Profile from './pages/profile/Profile';
 import Appearance from './pages/appearance/Appearance';
+import Search from './pages/search/Search';
 
 import './App.css';
 
@@ -40,6 +41,10 @@ function App() {
 					<Route
 						path='/appearance'
 						element={<ProtectedRoute children={<Appearance />}/>}
+					/>
+					<Route
+						path='/search'
+						element={<ProtectedRoute children={<Search />}/>}
 					/>
 					<Route
 						path='*'

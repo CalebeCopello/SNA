@@ -42,9 +42,9 @@ const Appearance = () => {
 		<>
 			<>
 				<Navbar />
-				<div className='flex mx-4'>
+				<div className='md:flex mx-4'>
 					<UserMenubar />
-					<main className={`${styleMainContainer} ${styleBoxBorder} ml-1 w-full`}>
+					<main className={`${styleMainContainer} ${styleBoxBorder} mt-1 md:mt-0 md:ml-1 w-full`}>
                         <Theme />
                     </main>
 				</div>

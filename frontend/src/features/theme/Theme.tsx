@@ -11,7 +11,7 @@ import { styleH1, styleBoxBorder } from '../../constants/styles';
 const Theme = () => {
 	const theme = useAppSelector((state) => state.theme.value);
 	const dispatch = useAppDispatch();
-	const themeList = ['gruvbox', 'gruvboxDark', 'rosePineMoon']
+	const themeList: string[] = ['gruvbox', 'gruvboxDark', 'rosePineMoon']
 	return (
 		<>
 			<div className='flex-row w-full h-full p-3'>
