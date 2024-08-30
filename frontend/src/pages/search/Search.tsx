@@ -60,7 +60,7 @@ const Search = () => {
 
 	return (
 		<>
-			<div className=' text-textColor'>
+			<div className='text-textColor'>
 				<Input
 					className={`${styleInput}`}
 					placeholder='eg: Bananya'
@@ -76,12 +76,26 @@ const Search = () => {
 								className='flex'
 								key={key}
 							>
-                                <div className="mr-2">
-                                    <img src={`${apiConfig?.images.secure_base_url}${apiConfig?.images.poster_sizes[0]}${result.poster_path}`} alt="poster" className='rounded'/>
-                                </div>
-								<div className='border'>{result.name}</div>
-								<div className='border w-60 text-wrap truncate'>{result.overview}</div>
-								<div className='border'>{result.first_air_date}</div>
+								{result.media_type == 'person' && (
+									<div className='mr-2'>
+										<img
+											src={`${apiConfig?.images.secure_base_url}${apiConfig?.images.poster_sizes[0]}${result.profile_path}`}
+											alt='poster'
+											className='rounded'
+										/>
+									</div>
+								)}
+								<div className='mr-2'>
+									<img
+										src={`${apiConfig?.images.secure_base_url}${apiConfig?.images.poster_sizes[0]}${result.poster_path}`}
+										alt='poster'
+										className='rounded'
+									/>
+								</div>
+
+								<div className='border'>{result.media_type == 'movie' ? result.title : result.name}</div>
+								<div className='border w-80 h-32 line-clamp-5 text-justify px-2'>{result.overview}</div>
+								<div className='border'>{result.media_type == 'movie' ? result.release_date : result.first_air_date}</div>
 							</div>
 						);
 					})}
