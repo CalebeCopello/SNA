@@ -6,8 +6,10 @@ import { Input } from '@/components/ui/input';
 
 import { GrDocumentMissing } from 'react-icons/gr';
 import { BiSolidTv } from 'react-icons/bi';
+import { MdLocalMovies } from 'react-icons/md';
+import { IoPersonSharp } from "react-icons/io5";
 
-import { styleInput } from '../../constants/styles';
+import { styleInput, styleButton } from '../../constants/styles';
 
 const Search = () => {
 	const [searchTerm, setSearchTerm] = useState<string | undefined>('');
@@ -65,6 +67,17 @@ const Search = () => {
 		console.log(e);
 	};
 
+	const formattedDate = (date: any) => {
+		const formatted = date
+			? new Date(date?.split('-')[0], date?.split('-')[1] - 1, date?.split('-')[2]).toLocaleDateString('en-US', {
+					month: 'long',
+					day: 'numeric',
+					year: 'numeric',
+			  })
+			: 'Not Found';
+		return formatted;
+	};
+
 	console.log(data);
 	console.log(apiConfig);
 
@@ -81,13 +94,6 @@ const Search = () => {
 				{data?.total_results}
 				{data?.results &&
 					data.results.map((result: object, key: number) => {
-						const formattedDate = result.first_air_date
-							? new Date(result.first_air_date).toLocaleDateString('en-US', {
-									month: 'long',
-									day: 'numeric',
-									year: 'numeric',
-							  })
-							: 'Not Found';
 						return (
 							<div
 								className='flex m-2'
@@ -116,44 +122,107 @@ const Search = () => {
 											<div className='flex text-sm border-b border-color10'>
 												<div className='my-auto'>
 													<div className='flex'>
-														<BiSolidTv className='my-auto mr-2' />
-														<span className='text-xs'>{formattedDate}</span>
+														<BiSolidTv className='my-auto mr-2 text-[36px]' />
+														<span className='text-xs my-auto'>First Air Date: {formattedDate(result.first_air_date)}</span>
 													</div>
 												</div>
 											</div>
-											<div
-												className='flex'
-												onClick={() => handleDetails(result.id)}
-											>
-												<div className='my-auto text-sm'>More Details</div>
+											<div className={`flex py-2`}>
+												<div
+													className={` ${styleButton} w-full h-full text-sm font-bold hover:cursor-pointer flex`}
+													onClick={() => handleDetails(result.id)}
+												>
+													<div className='m-auto '>More Details</div>
+												</div>
 											</div>
 										</div>
 									</>
 								)}
 								{result.media_type == 'movie' && (
 									<>
-										<img
-											src={`${apiConfig?.images.secure_base_url}${apiConfig?.images.poster_sizes[0]}${result.poster_path}`}
-											alt='poster'
-											className='rounded'
-										/>
-										<div className=''>{result.name}</div>
+										{result.poster_path != null ? (
+											<img
+												src={`${apiConfig?.images.secure_base_url}${apiConfig?.images.poster_sizes[0]}${result.poster_path}`}
+												alt='poster'
+												className={`${stylePoster}`}
+											/>
+										) : (
+											<div className={`${stylePoster} flex h-[135px] w-[96px] bg-color08`}>
+												<div className='m-auto'>
+													<GrDocumentMissing className='text-color01 m-auto text-[28px]' />
+													<span className='text-sm text-color01 font-bold'>Not found</span>
+												</div>
+											</div>
+										)}
+										<div className={styleResultDiv}>
+											<div className='truncate text-sm font-semibold border-b border-color10  flex'>
+												<div className='m-auto'>{result.title}</div>
+											</div>
+											<div className='flex text-sm border-b border-color10'>
+												<div className='my-auto'>
+													<div className='flex'>
+														<MdLocalMovies className='my-auto mr-2 text-[36px]' />
+														<span className='text-xs my-auto'>Release Date: {formattedDate(result.release_date)}</span>
+													</div>
+												</div>
+											</div>
+											<div className={`flex py-2`}>
+												<div
+													className={` ${styleButton} w-full h-full text-sm font-bold hover:cursor-pointer flex`}
+													onClick={() => handleDetails(result.id)}
+												>
+													<div className='m-auto '>More Details</div>
+												</div>
+											</div>
+										</div>
 									</>
 								)}
 								{result.media_type == 'person' && (
-									<div className='mr-2'>
-										<img
-											src={`${apiConfig?.images.secure_base_url}${apiConfig?.images.poster_sizes[0]}${result.profile_path}`}
-											alt='poster'
-											className='rounded'
-										/>
-									</div>
+									<>
+										{result.profile_path != null ? (
+											<img
+												src={`${apiConfig?.images.secure_base_url}${apiConfig?.images.poster_sizes[0]}${result.profile_path}`}
+												alt='poster'
+												className={`${stylePoster}`}
+											/>
+										) : (
+											<div className={`${stylePoster} flex h-[135px] w-[96px] bg-color08`}>
+												<div className='m-auto'>
+													<GrDocumentMissing className='text-color01 m-auto text-[28px]' />
+													<span className='text-sm text-color01 font-bold'>Not found</span>
+												</div>
+											</div>
+										)}
+										<div className={styleResultDiv}>
+											<div className='truncate text-sm font-semibold border-b border-color10  flex'>
+												<div className='m-auto'>{result.name}</div>
+											</div>
+											<div className='flex text-sm border-b border-color10'>
+												<div className='my-auto'>
+													<div className='flex'>
+														<IoPersonSharp className='my-auto mr-2 text-[36px]' />
+														<span className='text-xs my-auto'>Known for: {result.known_for_department}</span>
+													</div>
+												</div>
+											</div>
+											<div className={`flex py-2`}>
+												<div
+													className={` ${styleButton} w-full h-full text-sm font-bold hover:cursor-pointer flex`}
+													onClick={() => handleDetails(result.id)}
+												>
+													<div className='m-auto '>More Details</div>
+												</div>
+											</div>
+										</div>
+									</>
+									// <div className='mr-2'>
+									// 	<img
+									// 		src={`${apiConfig?.images.secure_base_url}${apiConfig?.images.poster_sizes[0]}${result.profile_path}`}
+									// 		alt='poster'
+									// 		className='rounded'
+									// 	/>
+									// </div>
 								)}
-								{/* <div className='mr-2'></div>
-
-								<div className='border'>{result.media_type == 'movie' ? result.title : result.name}</div>
-								<div className='border w-80 h-32 line-clamp-5 text-justify px-2'>{result.overview}</div>
-								<div className='border'>{result.media_type == 'movie' ? result.release_date : result.first_air_date}</div> */}
 							</div>
 						);
 					})}
