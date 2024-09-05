@@ -103,9 +103,9 @@ const SignUp = () => {
 			<Navbar />
 			<main className={`${styleMainContainer}`}>
 				{pageLoading ? (
-					<Skeleton className='w-[300px] h-[350px] rounded bg-color08' />
+					<Skeleton className='w-[288px] h-[350px] rounded bg-color08' />
 				) : (
-					<div className={`flex w-[300px] ${styleFormBorder}`}>
+					<div className={`flex w-[288px] ${styleFormBorder}`}>
 						<div className='flex-row w-full'>
 							<h1 className={`text-center ${styleH1}`}>SignUp</h1>
 							<div className=''>
