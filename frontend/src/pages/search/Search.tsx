@@ -19,7 +19,7 @@ const Search = () => {
 	const APIKEY = import.meta.env.VITE_API_KEY_TMDB;
 
 	const stylePoster: string = `rounded-l ml-2 border-2 border-color05 shadow h-[135px] w-[96px] min-w-[96px]`;
-	const styleResultDiv: string = `border-2 border-l-0 rounded-r px-1 grid grid-rows-3 place-content-right border-color05 w-[200px] md:w-[400px]`;
+	const styleResultDiv: string = `border-2 border-l-0 rounded-r px-1 grid grid-rows-3 place-content-right border-color05 w-[288px] md:w-[400px]`;
 
 	useEffect(() => {
 		axios({
@@ -84,7 +84,7 @@ const Search = () => {
 
 	return (
 		<>
-			<div className='text-textColor'>
+			<div className='text-textColor flex-row'>
 				<Input
 					className={`${styleInput}`}
 					placeholder='eg: Bananya'
@@ -93,12 +93,12 @@ const Search = () => {
 				/>
 				<div className=''>{`procurando por ${searchTerm}`}</div>
 				{data?.total_results}
-				<div className='grid md:grid-cols-2 lg:grid-cols-3'>
+				<div className='flex-row mx-auto md:grid md:grid-cols-2 lg:grid-cols-3'>
 					{data?.results &&
 						data.results.map((result: object, key: number) => {
 							return (
 								<div
-									className='flex m-2'
+									className='flex m-2 w-fit md:w-full mx-auto '
 									key={key}
 								>
 									{result.media_type == 'tv' && (
