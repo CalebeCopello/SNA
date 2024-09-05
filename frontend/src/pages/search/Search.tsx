@@ -18,7 +18,7 @@ const Search = () => {
 
 	const APIKEY = import.meta.env.VITE_API_KEY_TMDB;
 
-	const stylePoster: string = `rounded-l ml-2 border-2 border-color05 shadow h-[135px] w-[96px]`;
+	const stylePoster: string = `rounded-l ml-2 border-2 border-color05 shadow h-[135px] w-[96px] min-w-[96px]`;
 	const styleResultDiv: string = `border-2 border-l-0 rounded-r px-1 grid grid-rows-3 place-content-right border-color05 w-[200px] md:w-[400px]`;
 
 	useEffect(() => {
