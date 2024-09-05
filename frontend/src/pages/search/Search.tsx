@@ -38,6 +38,7 @@ const Search = () => {
 				console.error('Error Config: ', res);
 			});
 	}, [APIKEY]);
+	
 	useEffect(() => {
 		if (searchTerm?.length >= 3) {
 			axios({
