@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { NavigationMenu } from '@radix-ui/react-navigation-menu';
 
 import useIsUserLogged from '../hooks/useIsUserLogged';
@@ -15,8 +15,19 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 
 const Navbar = () => {
 	const { isUserInfoloaded, isUserLogged } = useIsUserLogged();
-	const [searchInput, setSearchInput] = useState<boolean>(false);
+	const [showSearchInput, setShowSearchInput] = useState<boolean>(false);
+	const [searchTerm, setSearchTerm] = useState<string | undefined>('');
 
+	const navigate = useNavigate()
+
+	const handleOnClickSearchInput = () => {
+		console.log('handleOnClickSearchInput');
+		navigate("/search",{state: {searchTerm}})
+	};
+	const handleOnChangeSearchInput = (e: React.ChangeEvent<HTMLFormElement>) => {
+		// console.log('handleOnChangeSearchInput', e.target.value);
+		setSearchTerm(() => e.target.value)
+	};
 	return (
 		<>
 			<div className={`${styleBoxBorder} mx-4 my-1 p-2 flex`}>
@@ -74,12 +85,36 @@ const Navbar = () => {
 								</svg>
 							</NavLink>
 						</div>
+						{isUserInfoloaded && isUserLogged ? (
+							<>
+								<div className='md:absolute w-full'>
+									<div className='flex w-full '>
+										<div className='md:mx-auto md:w-[500px]'>
+											<FaMagnifyingGlass
+												className={`flex md:hidden ${styleMenuButton} mt-[1px] text-[30px] text-textColor h-[30px] w-[30px] hover:text-color01 hover:cursor-pointer`}
+												onClick={() => setShowSearchInput(!showSearchInput)}
+											/>
+											<div className='hidden md:flex'>
+												<FaMagnifyingGlass className='my-auto text-[20px] text-textColor mr-2' />
+												<Input
+													className={`${styleInput} max-w-lg my-auto h-8`}
+													onClick={handleOnClickSearchInput}
+													onChange={handleOnChangeSearchInput}
+												></Input>
+											</div>
+										</div>
+									</div>
+								</div>
+							</>
+						) : (
+							''
+						)}
 						<div className='flex absolute right-0 top-0'>
 							{isUserInfoloaded ? (
 								isUserLogged ? (
 									<Sheet>
 										<SheetTrigger>
-											<CgProfile className={`${styleMenuButton} text-textColor h-[30px] w-[30px] hover:text-color01`} />
+											<CgProfile className={`${styleMenuButton} mt-[1px] text-textColor h-[30px] w-[30px] hover:text-color01`} />
 										</SheetTrigger>
 										<SheetContent
 											side='right'
@@ -158,24 +193,16 @@ const Navbar = () => {
 							)}
 						</div>
 					</NavigationMenu>
-					{isUserInfoloaded && isUserLogged ? (
-						<>
-							<FaMagnifyingGlass
-								className={`flex my-auto ml-5 text-[20px] ${searchInput ? `text-color05 hover:text-textColor` : `text-textColor hover:text-color05`} hover:cursor-pointer md:hidden`}
-								onClick={() => setSearchInput(!searchInput)}
-							/>
-							<div className="hidden md:flex ml-8 w-full">
-							<FaMagnifyingGlass className='my-auto text-[20px] text-textColor mr-2' />
-							<Input className={`${styleInput} max-w-lg my-auto h-8`}></Input>
-							</div>
-						</>
-					) : (
-						''
-					)}
 				</div>
 			</div>
-			<div className="w-full flex">
-			{searchInput && <Input className={`${styleInput} flex md:hidden w-full mx-4 mb-1`}></Input>}
+			<div className='w-full flex'>
+				{showSearchInput && (
+					<Input
+						className={`${styleInput} flex md:hidden w-full mx-4 mb-1`}
+						onClick={handleOnClickSearchInput}
+						onChange={handleOnChangeSearchInput}
+					></Input>
+				)}
 			</div>
 		</>
 	);

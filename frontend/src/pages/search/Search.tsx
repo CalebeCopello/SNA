@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,15 +11,18 @@ import { MdLocalMovies } from 'react-icons/md';
 import { IoPersonSharp } from 'react-icons/io5';
 
 import { styleInput, styleButton } from '../../constants/styles';
+import Navbar from '../../components/Navbar';
 
-const Search = () => {
-	const [searchTerm, setSearchTerm] = useState<string | undefined>('');
+const Search = ({searchTerm}) => {
+	const location = useLocation()
+	console.log(location.state.searchTerm)
+	// const [searchTerm, setSearchTerm] = useState<string | undefined>('');
 	const [apiConfig, setApiConfig] = useState<any>({});
 	const [data, setData] = useState<any | undefined>({});
 
 	const APIKEY = import.meta.env.VITE_API_KEY_TMDB;
 
-	const stylePoster: string = `rounded-l ml-2 border-2 border-color05 shadow h-[135px] w-[96px] min-w-[96px]`;
+	const stylePoster: string = `rounded-l border-2 border-color05 shadow h-[135px] w-[96px] min-w-[96px]`;
 	const styleResultDiv: string = `border-2 border-l-0 rounded-r px-1 grid grid-rows-3 place-content-right border-color05 w-[288px] md:w-[400px]`;
 
 	useEffect(() => {
@@ -84,6 +88,7 @@ const Search = () => {
 
 	return (
 		<>
+		<Navbar />
 			<div className='text-textColor flex-row'>
 				<Input
 					className={`${styleInput}`}
@@ -92,13 +97,14 @@ const Search = () => {
 					onChange={handleSearchChange}
 				/>
 				<div className=''>{`procurando por ${searchTerm}`}</div>
-				{data?.total_results}
-				<div className='flex-row mx-auto md:grid md:grid-cols-2 lg:grid-cols-3'>
+				<div className=''>{`total resultas ${data?.total_results}`}</div>
+				<div className=''>{`total pages ${data?.total_pages}`}</div>
+				<div className='flex-row mx-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-2 place-content-around max-w-[1510px]'>
 					{data?.results &&
 						data.results.map((result: object, key: number) => {
 							return (
 								<div
-									className='flex m-2 w-fit md:w-full mx-auto '
+									className='flex my-4 md:my-0 w-fit md:w-full mx-auto '
 									key={key}
 								>
 									{result.media_type == 'tv' && (
