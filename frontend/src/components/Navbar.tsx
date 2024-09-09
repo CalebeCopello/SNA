@@ -5,29 +5,29 @@ import { NavigationMenu } from '@radix-ui/react-navigation-menu';
 import useIsUserLogged from '../hooks/useIsUserLogged';
 
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { MdHome, MdMail } from 'react-icons/md';
 import { IoLogIn, IoSettingsSharp, IoLogOut, IoMenu } from 'react-icons/io5';
 import { FaUserPen, FaMagnifyingGlass } from 'react-icons/fa6';
 import { CgProfile } from 'react-icons/cg';
-import { styleMenuButton, styleBoxBorder, styleInput } from '../constants/styles';
+import { styleMenuButton, styleBoxBorder, styleInput, styleButton } from '../constants/styles';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 
 const Navbar = () => {
 	const { isUserInfoloaded, isUserLogged } = useIsUserLogged();
 	const [showSearchInput, setShowSearchInput] = useState<boolean>(false);
-	const [searchTerm, setSearchTerm] = useState<string | undefined>('');
 
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
-	const handleOnClickSearchInput = () => {
-		console.log('handleOnClickSearchInput');
-		navigate("/search",{state: {searchTerm}})
+	const handleSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
+		const query: string = e.target.searchTerm.value
+		if (query == '') return
+		navigate(`/search/?query=${query}&page=1`)
+		console.log(e.target.searchTerm.value);
 	};
-	const handleOnChangeSearchInput = (e: React.ChangeEvent<HTMLFormElement>) => {
-		// console.log('handleOnChangeSearchInput', e.target.value);
-		setSearchTerm(() => e.target.value)
-	};
+
 	return (
 		<>
 			<div className={`${styleBoxBorder} mx-4 my-1 p-2 flex`}>
@@ -87,7 +87,7 @@ const Navbar = () => {
 						</div>
 						{isUserInfoloaded && isUserLogged ? (
 							<>
-								<div className='md:absolute w-full'>
+								<div className='md:absolute md:ml-20 w-[520px]'>
 									<div className='flex w-full '>
 										<div className='md:mx-auto md:w-[500px]'>
 											<FaMagnifyingGlass
@@ -95,12 +95,10 @@ const Navbar = () => {
 												onClick={() => setShowSearchInput(!showSearchInput)}
 											/>
 											<div className='hidden md:flex'>
-												<FaMagnifyingGlass className='my-auto text-[20px] text-textColor mr-2' />
-												<Input
-													className={`${styleInput} max-w-lg my-auto h-8`}
-													onClick={handleOnClickSearchInput}
-													onChange={handleOnChangeSearchInput}
-												></Input>
+												<form onSubmit={handleSubmitSearch} className='flex w-full'>
+													<Input type='text' placeholder='Type a series, movie, or artist' name='searchTerm' className={`${styleInput} max-w-lg my-auto h-8`}></Input>
+													<Button type='submit' className={`${styleButton} ml-2 h-[30px]`}><FaMagnifyingGlass className='mr-2' />Search</Button>
+												</form>
 											</div>
 										</div>
 									</div>
@@ -197,11 +195,10 @@ const Navbar = () => {
 			</div>
 			<div className='w-full flex'>
 				{showSearchInput && (
-					<Input
-						className={`${styleInput} flex md:hidden w-full mx-4 mb-1`}
-						onClick={handleOnClickSearchInput}
-						onChange={handleOnChangeSearchInput}
-					></Input>
+					<form onSubmit={handleSubmitSearch} className='flex w-full'>
+						<Input type='text' placeholder='Type a series, movie, or artist' name='searchTerm' className={`${styleInput} flex md:hidden ml-4 mb-1`}></Input>
+						<Button type='submit' className={`${styleButton} ml-2 mr-4`}>Search</Button>
+					</form>
 				)}
 			</div>
 		</>

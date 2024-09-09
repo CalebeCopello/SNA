@@ -8,7 +8,7 @@ import Navbar from '@/components/Navbar';
 import UserMenubar from '@/components/UserMenubar';
 import { styleMainContainer, styleBoxBorder } from '@/constants/styles';
 
-import Theme from '../../features/theme/Theme'
+import Theme from '../theme/Theme';
 
 const Appearance = () => {
 	const navigate = useNavigate();
@@ -45,8 +45,8 @@ const Appearance = () => {
 				<div className='md:flex mx-4'>
 					<UserMenubar />
 					<main className={`${styleMainContainer} ${styleBoxBorder} mt-1 md:mt-0 md:ml-1 w-full`}>
-                        <Theme />
-                    </main>
+						<Theme />
+					</main>
 				</div>
 			</>
 		</>

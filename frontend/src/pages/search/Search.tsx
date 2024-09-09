@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,10 +13,9 @@ import { IoPersonSharp } from 'react-icons/io5';
 import { styleInput, styleButton } from '../../constants/styles';
 import Navbar from '../../components/Navbar';
 
-const Search = ({searchTerm}) => {
-	const location = useLocation()
-	console.log(location.state.searchTerm)
-	// const [searchTerm, setSearchTerm] = useState<string | undefined>('');
+const Search = () => {
+	const [searchParams, setSearchParams] = useSearchParams();
+	const [searchTerm, setSearchTerm] = useState<string | null>('');
 	const [apiConfig, setApiConfig] = useState<any>({});
 	const [data, setData] = useState<any | undefined>({});
 
@@ -25,6 +24,7 @@ const Search = ({searchTerm}) => {
 	const stylePoster: string = `rounded-l border-2 border-color05 shadow h-[135px] w-[96px] min-w-[96px]`;
 	const styleResultDiv: string = `border-2 border-l-0 rounded-r px-1 grid grid-rows-3 place-content-right border-color05 w-[288px] md:w-[400px]`;
 
+	console.log(typeof searchParams.get('page'))
 	useEffect(() => {
 		axios({
 			method: 'GET',
@@ -44,29 +44,25 @@ const Search = ({searchTerm}) => {
 	}, [APIKEY]);
 
 	useEffect(() => {
-		if (searchTerm?.length >= 3) {
-			axios({
-				method: 'GET',
-				url: 'https://api.themoviedb.org/3/search/multi',
-				params: { query: searchTerm, language: 'en-US', page: '1' },
-				headers: {
-					accept: 'application/json',
-					Authorization: APIKEY,
-				},
+		setSearchTerm(searchParams.get('query'));
+		const page: string | null = searchParams.get('page') ? searchParams.get('page') : '1'
+		axios({
+			method: 'GET',
+			url: 'https://api.themoviedb.org/3/search/multi',
+			params: { query: searchTerm, language: 'en-US', page: page },
+			headers: {
+				accept: 'application/json',
+				Authorization: APIKEY,
+			},
+		})
+			.then((res) => {
+				// console.log(res.data);
+				setData(() => res.data);
 			})
-				.then((res) => {
-					// console.log(res.data);
-					setData(() => res.data);
-				})
-				.catch((err) => {
-					console.error('Error Query: ', err);
-				});
-		}
-	}, [searchTerm, APIKEY]);
-
-	const handleSearchChange = (e: React.ChangeEvent<HTMLFormElement>) => {
-		setSearchTerm(e.target.value);
-	};
+			.catch((err) => {
+				console.error('Error Query: ', err);
+			});
+	}, [searchTerm, APIKEY, searchParams]);
 
 	const handleDetails = (e: number) => {
 		console.log(e);
@@ -88,15 +84,9 @@ const Search = ({searchTerm}) => {
 
 	return (
 		<>
-		<Navbar />
+			<Navbar />
 			<div className='text-textColor flex-row'>
-				<Input
-					className={`${styleInput}`}
-					placeholder='eg: Bananya'
-					value={searchTerm}
-					onChange={handleSearchChange}
-				/>
-				<div className=''>{`procurando por ${searchTerm}`}</div>
+				<div className=''>{`procurando por ${searchTerm ? searchTerm : 'no term defined'}`}</div>
 				<div className=''>{`total resultas ${data?.total_results}`}</div>
 				<div className=''>{`total pages ${data?.total_pages}`}</div>
 				<div className='flex-row mx-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-2 place-content-around max-w-[1510px]'>
