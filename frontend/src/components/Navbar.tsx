@@ -6,13 +6,15 @@ import useIsUserLogged from '../hooks/useIsUserLogged';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+
 import { MdHome, MdMail } from 'react-icons/md';
 import { IoLogIn, IoSettingsSharp, IoLogOut, IoMenu } from 'react-icons/io5';
 import { FaUserPen, FaMagnifyingGlass } from 'react-icons/fa6';
 import { CgProfile } from 'react-icons/cg';
+
 import { styleMenuButton, styleBoxBorder, styleInput, styleButton } from '../constants/styles';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 
 const Navbar = () => {
 	const { isUserInfoloaded, isUserLogged } = useIsUserLogged();
@@ -21,10 +23,10 @@ const Navbar = () => {
 	const navigate = useNavigate();
 
 	const handleSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
-		const query: string = e.target.searchTerm.value
-		if (query == '') return
-		navigate(`/search/?query=${query}&page=1`)
+		e.preventDefault();
+		const query: string = e.target.searchTerm.value;
+		if (query == '') return;
+		navigate(`/search/?query=${query}&page=1`);
 		console.log(e.target.searchTerm.value);
 	};
 
@@ -95,9 +97,23 @@ const Navbar = () => {
 												onClick={() => setShowSearchInput(!showSearchInput)}
 											/>
 											<div className='hidden md:flex'>
-												<form onSubmit={handleSubmitSearch} className='flex w-full'>
-													<Input type='text' placeholder='Type a series, movie, or artist' name='searchTerm' className={`${styleInput} max-w-lg my-auto h-8`}></Input>
-													<Button type='submit' className={`${styleButton} ml-2 h-[30px]`}><FaMagnifyingGlass className='mr-2' />Search</Button>
+												<form
+													onSubmit={handleSubmitSearch}
+													className='flex w-full'
+												>
+													<Input
+														type='text'
+														placeholder='Type a series, movie, or artist'
+														name='searchTerm'
+														className={`${styleInput} max-w-lg my-auto h-8`}
+													></Input>
+													<Button
+														type='submit'
+														className={`${styleButton} ml-2 h-[30px]`}
+													>
+														<FaMagnifyingGlass className='mr-2' />
+														Search
+													</Button>
 												</form>
 											</div>
 										</div>
@@ -195,9 +211,22 @@ const Navbar = () => {
 			</div>
 			<div className='w-full flex'>
 				{showSearchInput && (
-					<form onSubmit={handleSubmitSearch} className='flex w-full'>
-						<Input type='text' placeholder='Type a series, movie, or artist' name='searchTerm' className={`${styleInput} flex md:hidden ml-4 mb-1`}></Input>
-						<Button type='submit' className={`${styleButton} ml-2 mr-4`}>Search</Button>
+					<form
+						onSubmit={handleSubmitSearch}
+						className='flex w-full'
+					>
+						<Input
+							type='text'
+							placeholder='Type a series, movie, or artist'
+							name='searchTerm'
+							className={`${styleInput} flex md:hidden ml-4 mb-1`}
+						></Input>
+						<Button
+							type='submit'
+							className={`${styleButton} ml-2 mr-4`}
+						>
+							Search
+						</Button>
 					</form>
 				)}
 			</div>

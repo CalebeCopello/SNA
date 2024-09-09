@@ -4,13 +4,16 @@ import { useSearchParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
+
 
 import { GrDocumentMissing } from 'react-icons/gr';
 import { BiSolidTv } from 'react-icons/bi';
 import { MdLocalMovies } from 'react-icons/md';
 import { IoPersonSharp } from 'react-icons/io5';
 
-import { styleInput, styleButton } from '../../constants/styles';
+import { styleBoxBorder, styleButton } from '../../constants/styles';
+
 import Navbar from '../../components/Navbar';
 
 const Search = () => {
@@ -22,7 +25,7 @@ const Search = () => {
 	const APIKEY = import.meta.env.VITE_API_KEY_TMDB;
 
 	const stylePoster: string = `rounded-l border-2 border-color05 shadow h-[135px] w-[96px] min-w-[96px]`;
-	const styleResultDiv: string = `border-2 border-l-0 rounded-r px-1 grid grid-rows-3 place-content-right border-color05 w-[288px] md:w-[400px]`;
+	const styleResultDiv: string = `border-2 border-l-0 rounded-r px-1 grid grid-rows-3 place-content-right border-color05 w-full md:w-[400px]`;
 
 	console.log(typeof searchParams.get('page'))
 	useEffect(() => {
@@ -85,7 +88,7 @@ const Search = () => {
 	return (
 		<>
 			<Navbar />
-			<div className='text-textColor flex-row'>
+			<main className={`${styleBoxBorder} text-textColor flex-row  mx-4 p-2`}>
 				<div className=''>{`procurando por ${searchTerm ? searchTerm : 'no term defined'}`}</div>
 				<div className=''>{`total resultas ${data?.total_results}`}</div>
 				<div className=''>{`total pages ${data?.total_pages}`}</div>
@@ -94,7 +97,7 @@ const Search = () => {
 						data.results.map((result: object, key: number) => {
 							return (
 								<div
-									className='flex my-4 md:my-0 w-fit md:w-full mx-auto '
+									className='flex my-4 md:my-0 w-full mx-auto '
 									key={key}
 								>
 									{result.media_type == 'tv' && (
@@ -218,7 +221,11 @@ const Search = () => {
 							);
 						})}
 				</div>
-			</div>
+				<div>
+
+				pagination
+				</div>
+			</main>
 		</>
 	);
 };
