@@ -26,7 +26,7 @@ const Navbar = () => {
 		e.preventDefault();
 		const query: string = e.target.searchTerm.value;
 		if (query == '') return;
-		navigate(`/search/?query=${query}&page=1`);
+		navigate(`/search/?query=${query}`);
 		console.log(e.target.searchTerm.value);
 	};
 

@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-
 
 import { GrDocumentMissing } from 'react-icons/gr';
 import { BiSolidTv } from 'react-icons/bi';
@@ -17,17 +16,19 @@ import { styleBoxBorder, styleButton } from '../../constants/styles';
 import Navbar from '../../components/Navbar';
 
 const Search = () => {
+	console.log('render page')
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [searchTerm, setSearchTerm] = useState<string | null>('');
 	const [apiConfig, setApiConfig] = useState<any>({});
 	const [data, setData] = useState<any | undefined>({});
+	const [page, setPage] = useState<number>(1);
+	const [paginationArray, setPaginationArray] = useState<number[]>([page]);
+	const navigate = useNavigate();
 
 	const APIKEY = import.meta.env.VITE_API_KEY_TMDB;
-
 	const stylePoster: string = `rounded-l border-2 border-color05 shadow h-[135px] w-[96px] min-w-[96px]`;
 	const styleResultDiv: string = `border-2 border-l-0 rounded-r px-1 grid grid-rows-3 place-content-right border-color05 w-full md:w-[400px]`;
 
-	console.log(typeof searchParams.get('page'))
 	useEffect(() => {
 		axios({
 			method: 'GET',
@@ -48,7 +49,6 @@ const Search = () => {
 
 	useEffect(() => {
 		setSearchTerm(searchParams.get('query'));
-		const page: string | null = searchParams.get('page') ? searchParams.get('page') : '1'
 		axios({
 			method: 'GET',
 			url: 'https://api.themoviedb.org/3/search/multi',
@@ -65,7 +65,11 @@ const Search = () => {
 			.catch((err) => {
 				console.error('Error Query: ', err);
 			});
-	}, [searchTerm, APIKEY, searchParams]);
+	}, [searchTerm, APIKEY, searchParams, page]);
+
+	useEffect(() => {
+		pagesArray();
+	}, [page]);
 
 	const handleDetails = (e: number) => {
 		console.log(e);
@@ -82,8 +86,48 @@ const Search = () => {
 		return formatted;
 	};
 
-	console.log(data);
-	console.log(apiConfig);
+	const paginationComponent = () => {
+		return (
+			<Pagination className={`list-none`}>
+				<PaginationItem>
+					<PaginationPrevious
+						className={`cursor-pointer`}
+						onClick={() => setPage((prev: number | undefined) => (prev - 1 > 0 ? prev - 1 : prev))}
+					/>
+				</PaginationItem>
+				{data?.total_pages &&
+					paginationArray.map((_, key) => (
+						<PaginationItem key={key}>
+							<PaginationLink className={`cursor-pointer`} onClick={() => setPage(() => paginationArray[key])}> <span className={`${page == paginationArray[key] ? `border` : ``}  rounded p-1 w-full text-center`}>
+								{paginationArray[key]}
+								</span>
+								</PaginationLink>
+						</PaginationItem>
+					))}
+				<PaginationItem>
+					<PaginationNext
+						onClick={() => setPage((prev: number | undefined) => (prev + 1 <= data?.total_pages ? prev + 1 : prev))}
+						className={`cursor-pointer`}
+					/>
+				</PaginationItem>
+			</Pagination>
+		);
+	};
+
+	const pagesArray = () => {
+		const total: number[] = [];
+		for (let i: number = 1; i <= data?.total_pages; i++) {
+			total.push(i);
+		}
+		const pagination: number[] = [page];
+		let i: number = 1;
+		while (i <= 7) {
+			if (page + i <= data?.total_pages && pagination.length < 7) pagination.push(page + i);
+			if (page + i * -1 > 0 && pagination.length < 7) pagination.unshift(page + i * -1);
+			i++;
+		}
+		setPaginationArray(() => pagination);
+	};
 
 	return (
 		<>
@@ -221,10 +265,7 @@ const Search = () => {
 							);
 						})}
 				</div>
-				<div>
-
-				pagination
-				</div>
+				<div>{paginationComponent()}</div>
 			</main>
 		</>
 	);
